@@ -69,7 +69,7 @@
         function renderCeleb() {
             $("#celebs").empty();
             var celeb1 = $(this).attr("data-name");
-            var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + celeb1 + "&api_key=NJ9cbWf90eNYqgisUecjm5tqNIt8Zv5V&limit=15&sort=relevant";
+            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + celeb1 + "&api_key=NJ9cbWf90eNYqgisUecjm5tqNIt8Zv5V&limit=15&sort=relevant";
 
             $.ajax({
                 url: queryURL,
