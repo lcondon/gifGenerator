@@ -1,0 +1,116 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    <div class="container" id="mainFrame">
+        <div class="row">
+            <div class="col-8">
+                <div id="celeb-buttons"></div>
+            </div>
+            <div class="col-4">
+                <form id="celeb-form">
+                    <div class="form-group">
+                        <label class="lead" for="celeb-input">Add a celebrity</label>
+                        <div class="form-row">
+                            <div class="col">
+                                <input class="form-control" type="text" id="celeb-input">
+                            </div>
+                            <div class="col">
+                                <input id="addCeleb" class="btn btn-info" type="submit" value="Submit">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center flex-wrap" id="celebs"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+
+        var celebs = ["Britney Spears", "Lindsay Lohan", "Kim Kardashian", "Meryl Streep"];
+
+        function renderButtons() {
+
+            $("#celeb-buttons").empty();
+            for (var i = 0; i < celebs.length; i++) {
+
+                var a = $("<button>");
+                a.addClass("showCeleb")
+                    .addClass("btn")
+                    .addClass("btn-info")
+                    .attr("data-name", celebs[i])
+                    .text(celebs[i]);
+                $("#celeb-buttons").append(a);
+            }
+        }
+
+        $("#addCeleb").on("click", function (event) {
+            event.preventDefault();
+            var celeb = $("#celeb-input").val().trim();
+
+            celebs.push(celeb);
+
+            renderButtons();
+        });
+
+        function renderCeleb() {
+            $("#celebs").empty();
+            var celeb1 = $(this).attr("data-name");
+            var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + celeb1 + "&api_key=NJ9cbWf90eNYqgisUecjm5tqNIt8Zv5V&limit=15&sort=relevant";
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response);
+
+                var results = response.data;
+
+                for (var i = 0; i < results.length; i++) {
+                    var celebDiv = $("<div>").css("display", "inline");
+                    var celebImg = $("<img>").attr("src", results[i].images.fixed_height_still.url)
+                        .addClass("mx-auto")
+                        .addClass("celebImg");
+                    celebDiv.append(celebImg);
+                    $("#celebs").append(celebDiv);
+
+                }
+
+
+            });
+        };
+
+        $(document).on("click", ".celebImg", function () {
+            var src = $(this).attr("src");
+            if ($(this).hasClass('playing')) {
+                //stop
+                $(this).attr('src', src.replace(/\.gif/i, "_s.gif"))
+                $(this).removeClass('playing');
+            } else {
+                //play
+                $(this).addClass('playing');
+                $(this).attr('src', src.replace(/\_s.gif/i, ".gif"))
+            }
+        });
+
+        $(document).on("click", ".showCeleb", renderCeleb);
+
+        renderButtons();
+    </script>
+
+</body>
+
+</html>

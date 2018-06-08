@@ -1,0 +1,26 @@
+body {
+    background-image: url(leather_1.png);
+    background-repeat: repeat;
+    background-size: 300px contain;
+}
+
+#mainFrame {
+    padding-top: 25px;
+}
+
+#celebs {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+button {
+      margin: 10px;
+    }
+
+.celebImg {
+    margin: 10px;
+    padding: 5px;
+}
