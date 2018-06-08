@@ -1,3 +1,3 @@
 # gifGenerator
 
-https://lcondon.github.io/gifGenerator/.
+https://lcondon.github.io/gifGenerator/
