@@ -23,7 +23,7 @@
                                 <input class="form-control" type="text" id="celeb-input">
                             </div>
                             <div class="col">
-                                <input id="addCeleb" class="btn btn-info" type="submit" value="Submit">
+                                <input id="addCeleb" class="btn btn-outline-info" type="submit" value="Submit">
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,9 @@
                     var celebDiv = $("<div>").css("display", "inline");
                     var celebImg = $("<img>").attr("src", results[i].images.fixed_height_still.url)
                         .addClass("mx-auto")
-                        .addClass("celebImg");
+                        .addClass("celebImg")
+                        .attr("data-stop", results[i].images.fixed_height_still.url)
+                        .attr("data-playing", results[i].images.fixed_height.url);
                     celebDiv.append(celebImg);
                     $("#celebs").append(celebDiv);
 
@@ -96,13 +98,11 @@
         $(document).on("click", ".celebImg", function () {
             var src = $(this).attr("src");
             if ($(this).hasClass('playing')) {
-                //stop
-                $(this).attr('src', src.replace(/\.gif/i, "_s.gif"))
+                $(this).attr('src', $(this).attr("data-stop"))
                 $(this).removeClass('playing');
             } else {
-                //play
                 $(this).addClass('playing');
-                $(this).attr('src', src.replace(/\_s.gif/i, ".gif"))
+                $(this).attr('src', $(this).attr("data-playing"))
             }
         });
 
